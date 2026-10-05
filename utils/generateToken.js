@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const generateToken = (id) => {
 
-  //create the signed JWT , expires in 7 days
+  //create the signed JWT , stores user ID as id, expires in 7 days
 
   return jwt.sign(
     { id },
