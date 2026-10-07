@@ -32,7 +32,10 @@ db();
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin:[
+      'http://localhost:5173',
+      'https://inventory-frontend-rho-self.vercel.app'
+    ],
     credentials: true
   })
 );
