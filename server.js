@@ -30,27 +30,27 @@ db();
 // Because these are different origins (5173 vs 3000), your backend must allow the frontend origin
 //CORS / connection between your frontend and backend.
 
-// app.use(
-//   cors({
-//     origin:[
-//       'http://localhost:5173',
-//       'https://inventory-frontend-rho-self.vercel.app'
-//     ],
-//     credentials: true
-//   })
-// );
+app.use(
+  cors({
+    origin:[
+      'http://localhost:5173',
+      'https://inventory-frontend-rho-self.vercel.app'
+    ],
+    credentials: true
+  })
+);
 
 
-//copied from ecommerce 
+// //copied from ecommerce 
 
-app.use(cors({
-  origin: "https://inventory-frontend-rho-self.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization","authtoken","email"],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: "https://inventory-frontend-rho-self.vercel.app",
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization","authtoken","email"],
+//   credentials: true
+// }));
 
-app.options(/.*/, cors());
+// app.options(/.*/, cors());
 
 
 app.use("/api/users",userRoutes);  //tells Express which middleware or router should handle a particular URL path.
