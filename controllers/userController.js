@@ -71,13 +71,14 @@ export const signIn=async(req,res)=>{
        // Browser receives and stores the cookie
        // Backend sends a Set-Cookie response header containing the JWT to the browser
 
-       res.cookie("token", token, {
-     httpOnly: true,
-     secure: false,
-     //sameSite: "lax",
-     samesite:"none",
-     maxAge: 7 * 24 * 60 * 60 * 1000,
-   });
+
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
        res.json({
 
