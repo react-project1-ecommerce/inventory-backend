@@ -1,39 +1,36 @@
+
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
 
-  const token = req.cookies.token;  //is there a token, cookie-parser reads the browser's cookie and puts them inside req.cookies
+  // Read the JWT from the Authorization header
+  //HTTP header names are case-insensitive
 
+  
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
-      error: "Not authorized. Please login."   //no token 
+      error: "Not authorized. Please login."
     });
   }
 
+  // Extract the token after "Bearer "
+  const token = authHeader.split(" ")[1];
 
   try {
+    // Verify the token using the secret key
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    //if there is token 
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);   //verify the token with secret key stored in .env file
-
-    //decoded is the information that was stored inside JWT by generateToken.js.
-
-    req.user = decoded;  // if it is valid token decode it and store it in req.user
+    // Store decoded user information in req.user
+    req.user = decoded;
 
     next();
 
-  } 
-  catch (err) {
-
-    //not a valid token
-
+  } catch (err) {
     return res.status(401).json({
-      error: "Invalid or expired token."   
+      error: "Invalid or expired token."
     });
-
   }
 
 };
-

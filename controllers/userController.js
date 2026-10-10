@@ -59,25 +59,13 @@ export const signIn=async(req,res)=>{
      {
 
        const token = generateToken(user._id);  
-
-       //JWT is now stored in a http-only cookie named 'token'
-       // for local development secure:false, later when we deploy our project with HTTPS will change that to secure:true
-
+       
        //lax blocks most cross-site cookie requests, browser restricts cross-site sending of JWT cookie
-       //This helps protect application against CSRF (Cross-Site Request Forgery) attacks.
-
-       // response no longer contains the JWT
-       // JWT is stored in HTTP-ONLY cookie, not in react/javascript code
-       // Browser receives and stores the cookie
-       // Backend sends a Set-Cookie response header containing the JWT to the browser
+       //This helps protect application against CSRF (Cross-Site Request Forgery) attacks.     
 
 
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+// Return the JWT in the response body
+// The frontend will store it and send it in the Authorization header
 
 
        res.json({
@@ -88,7 +76,7 @@ res.cookie("token", token, {
          department: user.department,
          isAdmin: user.isAdmin,
          procurement: user.procurement,
-
+         token: token,
        });
 
      }
