@@ -1,3 +1,4 @@
+import "dotenv/config";
 import admin from "firebase-admin";
 
 //Reads the firebase service-account JSON from Render environment variable and then initializes firebase Admin
