@@ -140,24 +140,21 @@ export const logoutUser = async (req, res) => {
 };
 
 
+
 export const getCurrentUser = async (req, res) => {
-
   try {
-
-    //This retrieves the user's latest information from the database.
-    //JWT payload { id } is decoded by middleware, so user ID is accessed using req.user.id
-
-    const user = await User.findById(req.user.id)
-                      .select("-password");   // the password hash is excluded from the query result
+    // Find the existing MongoDB user using the verified Firebase email
+    const user = await User.findOne({
+      email: req.user.email
+    }).select("-password");
 
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: "User not found in the inventory database."
       });
     }
 
-    //send these user details to the frontend
-
+    // Return the existing inventory user details
     return res.json({
       _id: user._id,
       name: user.name,
@@ -168,13 +165,10 @@ export const getCurrentUser = async (req, res) => {
     });
 
   } catch (err) {
-
-    console.log(err);
+    console.error("Get current user error:", err);
 
     return res.status(500).json({
       error: err.message
     });
-
   }
-
 };
