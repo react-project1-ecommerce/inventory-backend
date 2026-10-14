@@ -14,7 +14,7 @@ export const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
+    const decodedToken = await admin.verifyIdToken(token);
 
     // Firebase UID identifies the authenticated user
     req.user = {
