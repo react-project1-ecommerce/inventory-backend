@@ -1,14 +1,17 @@
-import "dotenv/config";
-import admin from "firebase-admin";
 
-//Reads the firebase service-account JSON from Render environment variable and then initializes firebase Admin
+import "dotenv/config";
+import { initializeApp, cert } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
 const serviceAccount = JSON.parse(
   process.env.FIREBASE_SERVICE_ACCOUNT_JSON
 );
 
-admin.initializeApp({
-  credential: admin.cert(serviceAccount),
+const firebaseApp = initializeApp({
+  credential: cert(serviceAccount),
 });
 
-export default admin;
+const auth = getAuth(firebaseApp);
+
+export default auth;
+
