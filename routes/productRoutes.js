@@ -8,7 +8,14 @@ import {
   deleteProduct,
 } from "../controllers/productController.js";
 
+import { authMiddleware } from "../middleware/authMiddleware.js";
+
+
 const router = express.Router();
+
+//The middleware will then run before all five product routes (POST, GET, GET by ID, PUT, and DELETE).
+
+router.use(authMiddleware);
 
 //connects each URL to the appropriate controller function
 
