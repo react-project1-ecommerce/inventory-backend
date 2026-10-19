@@ -8,10 +8,14 @@ import {
   deleteCategory,
 } from "../controllers/categoryController.js";
 
+import { authMiddleware } from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
-router.post("/", createCategory);  //endpoint /api/categories   create a category   
-router.get("/", getCategories);    //endpoint /api/categories   get all categories
+router.use(authMiddleware);
+
+router.post("/", createCategory);  //endpoint /api/categories/   create a category   
+router.get("/", getCategories);    //endpoint /api/categories/   get all categories
 
 router.get("/:id",getCategoryById); //endpoint /api/categories/:id  get category by id
 
