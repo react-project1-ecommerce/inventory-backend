@@ -12,7 +12,7 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-//tells Express to require Firebase authentication for all category routes defined after that line.
+//tells Express to require Firebase authentication for all category routes defined after that line by running authMiddleware.
 
 router.use(authMiddleware);  
 

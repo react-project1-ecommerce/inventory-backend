@@ -6,6 +6,7 @@ import {
   getProductById,
   updateProduct,
   deleteProduct,
+  updateStock,
 } from "../controllers/productController.js";
 
 import { authMiddleware } from "../middleware/authMiddleware.js";
@@ -20,6 +21,8 @@ router.use(authMiddleware);  //product API requests remain protected.
 //connects each URL to the appropriate controller function
 
 router.post("/", createProduct);
+
+router.post("/stock", updateStock);
 
 router.get("/", getProducts);
 

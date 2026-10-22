@@ -1,4 +1,5 @@
 import Product from "../models/productModel.js";
+import StockHistory from "../models/stockHistoryModel.js";
 
 // Create Product
 export const createProduct = async (req, res) => {
@@ -131,3 +132,84 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+
+
+ // Record Stock In / Stock Out
+
+export const updateStock = async (req, res) => {
+  try {
+    const { productId, movementType, quantity, reason } = req.body;
+
+    const stockQuantity = Number(quantity);
+
+    if (!productId) {
+      return res.status(400).json({
+        message: "Product ID is required",
+      });
+    }
+
+    if (!Number.isInteger(stockQuantity) || stockQuantity <= 0) {
+      return res.status(400).json({
+        message: "Quantity must be a positive whole number",
+      });
+    }
+
+    if (!["in", "out"].includes(movementType)) {
+      return res.status(400).json({
+        message: "Invalid stock movement type",
+      });
+    }
+
+    if (!reason || !reason.trim()) {
+      return res.status(400).json({
+        message: "Reason is required",
+      });
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    const previousQuantity = product.quantity;
+    let newQuantity;
+
+    if (movementType === "in") {
+      newQuantity = previousQuantity + stockQuantity;
+    } else {
+      if (previousQuantity < stockQuantity) {
+        return res.status(400).json({
+          message: "Insufficient stock available",
+        });
+      }
+
+      newQuantity = previousQuantity - stockQuantity;
+    }
+
+    product.quantity = newQuantity;
+    await product.save();
+
+    await StockHistory.create({
+      product: product._id,
+      movementType,
+      quantity: stockQuantity,
+      previousQuantity,
+      newQuantity,
+      reason: reason.trim(),
+    });
+
+    res.status(200).json({
+      message: "Stock updated and history recorded successfully",
+      product,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
