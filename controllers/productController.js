@@ -213,3 +213,21 @@ export const updateStock = async (req, res) => {
   }
 };
 
+
+export const getStockHistory = async (req, res) => {
+
+  try {
+    const history = await StockHistory.find()
+      .populate("product", "name sku")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(history);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+    
+  }
+};

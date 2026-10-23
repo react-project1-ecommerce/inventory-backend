@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProduct,
   updateStock,
+  getStockHistory,
 } from "../controllers/productController.js";
 
 import { authMiddleware } from "../middleware/authMiddleware.js";
@@ -23,6 +24,11 @@ router.use(authMiddleware);  //product API requests remain protected.
 router.post("/", createProduct);
 
 router.post("/stock", updateStock);
+
+//This route appears before the router.get("/:id", getProductById) route.Because Express could interpret stock-history as a product ID
+
+
+router.get("/stock-history", getStockHistory);
 
 router.get("/", getProducts);
 
