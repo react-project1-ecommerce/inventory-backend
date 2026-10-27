@@ -8,7 +8,7 @@ const router = express.Router();
 
 //registerUser and signIn are not protected routes
 
-router.post('/registerUser', registerUser);
+router.post('/registerUser', authMiddleware, registerUser);
 
 router.post('/signIn', signIn);
 

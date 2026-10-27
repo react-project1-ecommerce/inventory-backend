@@ -8,6 +8,17 @@ export const registerUser=async(req,res)=>{
 
     const { name,email,password,department } = req.body;
 
+    //req.user.email is the email associated with the authenticated Firebase account
+
+    if (
+  !req.user?.email ||
+  req.user.email.toLowerCase() !== email.trim().toLowerCase()
+) {
+  return res.status(403).json({
+    error: "Registration email does not match the Firebase account.",
+  });
+}
+
    const existUser = await User.findOne({email}).exec();
 
    if (existUser)

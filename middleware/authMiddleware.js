@@ -17,13 +17,35 @@ export const authMiddleware = async (req, res, next) => {
     const decodedToken = await admin.verifyIdToken(token);
 
     // Firebase UID identifies the authenticated user
-    req.user = {
-      id: decodedToken.uid,
-      uid: decodedToken.uid,
-      email: decodedToken.email,
-    };
 
-    next();
+    //Firebase includes email_verified in its decoded ID token
+    //We're now storing that status in req.user.emailVerified so our backend can check it.
+
+  req.user = {
+  id: decodedToken.uid,
+  uid: decodedToken.uid,
+  email: decodedToken.email,
+  emailVerified: decodedToken.email_verified,
+};
+
+//backend now blocks unverified users from protected API routes, while allowing the initial registration request.
+
+   // Allow unverified users to register their profile.
+if (
+  !req.user.emailVerified &&
+  req.originalUrl.includes("/registerUser")
+) {
+  return next();
+}
+
+// Block unverified users from other protected API routes.
+if (!req.user.emailVerified) {
+  return res.status(403).json({
+    error: "Please verify your email before accessing this feature.",
+  });
+}
+
+next();
 
   } catch (err) {
     console.error("Firebase token verification failed:", err.message);
