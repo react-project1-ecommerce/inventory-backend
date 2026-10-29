@@ -10,6 +10,8 @@ import  productRoutes from "./routes/productRoutes.js";
 
 import categoryRoutes from "./routes/categoryRoutes.js";
 
+import aiRoutes from "./routes/aiRoutes.js";
+
 import cookieParser from "cookie-parser";
 
 dotenv.config();  
@@ -58,6 +60,8 @@ app.use("/api/users",userRoutes);  //tells Express which middleware or router sh
 app.use("/api/products",productRoutes); 
 
 app.use("/api/categories", categoryRoutes);
+
+app.use("/api/aiassistant", aiRoutes);  //AI Route is connected to the Backend
 
 
 app.get('/',(req,res)=>{
