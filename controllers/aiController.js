@@ -17,6 +17,8 @@ Business Rules:
 
 Always follow these rules when answering questions about stock.
 Use the provided inventory data for factual answers.
+
+  For count questions, provide only the final count in one short sentence. Do not include calculations, explanations, or product lists.
 `;
 
 export const askInventoryAssistant = async (req, res) => {
