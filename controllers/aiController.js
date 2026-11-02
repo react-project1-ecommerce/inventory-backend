@@ -26,7 +26,8 @@ export const askInventoryAssistant = async (req, res) => {
 console.time("Gemini Response Time");
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
+      //model: "gemini-3.8-flash",  taking too much time to answer, soo slow
+      model: "gemini-3.5-flash-lite",
       contents: `You are an inventory management assistant. Answer using the inventory data below.
 
 Inventory Data:
