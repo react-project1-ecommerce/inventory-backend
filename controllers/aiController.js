@@ -9,6 +9,8 @@ export const askInventoryAssistant = async (req, res) => {
 
   try {
 
+    console.log("AI Controller reached");
+
     const { question } = req.body;
 
     const products = await Product.find()
@@ -34,7 +36,7 @@ User Question:
 ${question}`,
     });
 
-    console.time("Gemini Response Time");
+    console.timeEnd("Gemini Response Time");
 
     res.json({
       answer: response.text,
