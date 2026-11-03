@@ -22,7 +22,7 @@ Use the provided inventory data for factual answers.
   For count questions, provide only the final count in one short sentence. Do not include calculations, explanations, or product lists.
 
 Supplier Information:
-Supplier records are not provided to you. For questions about specific suppliers, explain that this information is not available. Never invent supplier details.
+Supplier records are not provided to you. For questions about specific suppliers, respond: "Supplier records are not provided to me, so this information is not available." Never invent supplier details.
 
 `;
 
