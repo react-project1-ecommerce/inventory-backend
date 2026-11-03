@@ -7,6 +7,7 @@ const ai = new GoogleGenAI({
 
 //add Business Rules for this software for Gemini so that the business rules are separate from the Gemini request logic.
 
+//template string
 
 const inventoryAssistantInstructions = `
 You are an intelligent inventory management assistant.
@@ -19,6 +20,10 @@ Always follow these rules when answering questions about stock.
 Use the provided inventory data for factual answers.
 
   For count questions, provide only the final count in one short sentence. Do not include calculations, explanations, or product lists.
+
+Supplier Information:
+Supplier records are not provided to you. For questions about specific suppliers, explain that this information is not available. Never invent supplier details.
+
 `;
 
 export const askInventoryAssistant = async (req, res) => {
