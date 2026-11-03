@@ -71,3 +71,55 @@ ${question}`,
 
   }
 };
+
+
+//AI Inventory Insights
+
+export const getInventoryInsights = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .select("name sku quantity price");
+
+    if (products.length === 0) {
+      return res.json({
+        insights: "No products found in your inventory.",
+      });
+    }
+
+    const inventoryData = products.map((product) => ({
+      name: product.name,
+      sku: product.sku,
+      quantity: product.quantity,
+      price: product.price,
+    }));
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash-lite",
+      contents: `${inventoryAssistantInstructions}
+
+Analyze the following inventory and provide 3 to 5 useful insights.
+
+Focus on:
+- Products with stock quantities of 5 or less.
+- Products that may need attention.
+- Other useful observations supported by the inventory data.
+
+Do not invent sales trends, demand, reorder levels, or missing information.
+
+Keep the insights concise and actionable.
+Use bullet points.
+
+Inventory Data:
+${JSON.stringify(inventoryData)}`,
+    });
+
+    res.json({ insights: response.text });
+
+  } catch (error) {
+    console.error("Inventory insights error:", error.message);
+
+    res.status(500).json({
+      error: "Unable to generate inventory insights. Please try again.",
+    });
+  }
+};
