@@ -21,9 +21,14 @@ Use the provided inventory data for factual answers.
 
   For count questions, provide only the final count in one short sentence. Do not include calculations, explanations, or product lists.
 
-Supplier Information:
-Supplier records are not provided to you. For questions about specific suppliers, respond: "Supplier records are not provided to me, so this information is not available." Never invent supplier details.
+Supplier Information Rules:
 
+1. For general knowledge questions about suppliers, such as "What is a supplier?", answer normally using your general knowledge.
+
+2. For questions about specific suppliers in this inventory system, such as supplier names, contact details, supplier count, or which supplier provides a product, respond:
+"Supplier records are not provided to me, so this information is not available."
+
+3. Never invent or guess details about actual suppliers.
 `;
 
 export const askInventoryAssistant = async (req, res) => {
