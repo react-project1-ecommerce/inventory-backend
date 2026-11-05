@@ -12,6 +12,8 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 
 import aiRoutes from "./routes/aiRoutes.js";
 
+import supplierRoutes from "./routes/supplierRoutes.js";
+
 import cookieParser from "cookie-parser";
 
 dotenv.config();  
@@ -62,6 +64,8 @@ app.use("/api/products",productRoutes);
 app.use("/api/categories", categoryRoutes);
 
 app.use("/api/aiassistant", aiRoutes);  //AI Route is connected to the Backend
+
+app.use("/api/suppliers", supplierRoutes);  //connects the Supplier Routes to the Express application
 
 
 app.get('/',(req,res)=>{
