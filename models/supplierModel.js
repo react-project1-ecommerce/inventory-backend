@@ -7,27 +7,44 @@ const supplierSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
     contactPerson: {
       type: String,
       trim: true,
     },
-
     email: {
       type: String,
       required: true,
       trim: true,
     },
-
     phone: {
       type: String,
       required: true,
       trim: true,
     },
-
-    address: {
+    streetAddress: {
       type: String,
       trim: true,
+    },
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    pinCode: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    country: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "India",
     },
   },
   { timestamps: true }
