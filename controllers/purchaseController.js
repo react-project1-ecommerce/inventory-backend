@@ -89,6 +89,9 @@ export const createPurchase = async (req, res) => {
       totalAmount,
     });
 
+    await purchase.populate("supplier");
+    await purchase.populate("products.product");
+
     res.status(201).json({
       message: "Purchase created successfully",
       purchase,
