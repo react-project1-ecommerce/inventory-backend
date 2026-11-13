@@ -30,11 +30,10 @@ const supplierSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    state: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+  state: {
+  type: String,
+  trim: true,
+},
     pinCode: {
       type: String,
       required: true,
