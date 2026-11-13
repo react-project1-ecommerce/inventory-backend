@@ -144,40 +144,44 @@ export const updatePurchaseStatus = async (req, res) => {
     }
 
     // Cancel Purchase
-    if (status === "Cancelled") {
-      const purchase = await Purchase.findOneAndUpdate(
-        {
-          _id: purchaseId,
-          status: "Pending",
-        },
-        {
-          $set: { status: "Cancelled" },
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+ // Cancel Purchase
+if (status === "Cancelled") {
+  const updatedPurchase = await Purchase.findOneAndUpdate(
+    {
+      _id: purchaseId,
+      status: "Pending",
+    },
+    {
+      $set: { status: "Cancelled" },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-      if (!purchase) {
-        const existingPurchase = await Purchase.findById(purchaseId);
+  if (!updatedPurchase) {
+    const existingPurchase = await Purchase.findById(purchaseId);
 
-        if (!existingPurchase) {
-          return res.status(404).json({
-            message: "Purchase not found",
-          });
-        }
-
-        return res.status(400).json({
-          message: "Only pending purchases can be cancelled",
-        });
-      }
-
-      return res.status(200).json({
-        message: "Purchase cancelled successfully",
-        purchase,
+    if (!existingPurchase) {
+      return res.status(404).json({
+        message: "Purchase not found",
       });
     }
+
+    return res.status(400).json({
+      message: "Only pending purchases can be cancelled",
+    });
+  }
+
+  await updatedPurchase.populate("supplier");
+  await updatedPurchase.populate("products.product");
+
+  return res.status(200).json({
+    message: "Purchase cancelled successfully",
+    purchase: updatedPurchase,
+  });
+}
 
     // Mark Purchase as Received
     const session = await mongoose.startSession();
