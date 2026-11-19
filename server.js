@@ -18,6 +18,8 @@ import purchaseRoutes from "./routes/purchaseRoutes.js";
 
 import customerRoutes from "./routes/customerRoutes.js";
 
+import saleRoutes from "./routes/saleRoutes.js";
+
 import cookieParser from "cookie-parser";
 
 dotenv.config();  
@@ -78,6 +80,10 @@ app.use("/api/purchases", purchaseRoutes);
 //connect Customer Routes to the Express Backend
 
 app.use("/api/customers", customerRoutes);
+
+//connect Sales Routes to the Backend
+
+app.use("/api/sales", saleRoutes);
 
 
 app.get('/',(req,res)=>{
